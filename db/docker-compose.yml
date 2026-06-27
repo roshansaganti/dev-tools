@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mysql:8.0.42
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: mysql_admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - 3306:3306
+    networks:
+      - local_app_network
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./conf/mysql.cnf:/etc/mysql/my.cnf
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+volumes:
+  mysql_data:
+
+networks:
+  local_app_network:
+    external: true
